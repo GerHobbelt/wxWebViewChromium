@@ -105,11 +105,6 @@ bool wxWebViewChromium::Create(wxWindow* parent,
 
 wxWebViewChromium::~wxWebViewChromium()
 {
-    CefRefPtr<CefBrowser> browser = m_clientHandler->GetBrowser();
-    if(browser.get()) {
-        // Let the browser window know we are about to destroy it.
-        browser->GetHost()->ParentWindowWillClose();
-    }
 }
 
 void wxWebViewChromium::OnSize(wxSizeEvent& event)
@@ -410,7 +405,7 @@ bool wxWebViewChromium::StartUp(int &code, const wxString &path)
     // If there is no subprocess then we need to execute on this process
     if(path == "")
     {
-        code = CefExecuteProcess(args, NULL);
+        code = CefExecuteProcess(args, NULL, NULL);
         if(code >= 0)
             return false;
     }
@@ -421,14 +416,14 @@ bool wxWebViewChromium::StartUp(int &code, const wxString &path)
     settings.multi_threaded_message_loop = true;
     CefString(&settings.browser_subprocess_path) = path.ToStdString();
 
-    return CefInitialize(args, settings, NULL);
+    return CefInitialize(args, settings, NULL, NULL);
 }
 
 int wxWebViewChromium::StartUpSubprocess()
 {
     CefMainArgs args(wxGetInstance()); 
 
-    return CefExecuteProcess(args, NULL);
+    return CefExecuteProcess(args, NULL, NULL);
 }
 
 void wxWebViewChromium::Shutdown()
