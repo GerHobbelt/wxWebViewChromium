@@ -58,7 +58,7 @@
 #include "wxlogo.xpm"
 
 
-//We map menu items to their history items
+// We map menu items to their history items
 WX_DECLARE_HASH_MAP(int, wxSharedPtr<wxWebViewHistoryItem>,
                     wxIntegerHash, wxIntegerEqual, wxMenuHistoryMap);
 
